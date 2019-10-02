@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .wrap {
+            background: black;
+            width: 180px;
+            height: 250px;
+            padding: 20px;
+            border-radius: 20px;
+        }
+        .monitor {
+            width: 100%;
+            height: 30px;
+            background: transparent;
+            color: white;
+            border: none;
+            /*padding: 0 10px;*/
+        }
+        button {
+            width: 40px;
+            height: 30px;
+            border-radius: 15px;
+            outline: none;
+            border: none;
+            margin: 5px 1px;
+            background: #1F1E2B;
+            color: white;
+        }
+        #input {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        #input, #history {
+            text-align: right;
+        }
+        .operator {
+            color: mediumseagreen;
+        }
+        .equal {
+            background: mediumseagreen;
+        }
+        .clear {
+            background: orangered;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <input type="text" class="monitor" id="history" name="history" readonly><br>
+    <input type="text" class="monitor" id="input" name="input" readonly><br>
+    <button type="button" onclick="getValue(7);">7</button>
+    <button type="button" onclick="getValue(8);">8</button>
+    <button type="button" onclick="getValue(9);">9</button>
+    <button type="button" class="operator" onclick="getValue('+');">+</button>
+    <br>
+    <button type="button" onclick="getValue(4);">4</button>
+    <button type="button" onclick="getValue(5);">5</button>
+    <button type="button" onclick="getValue(6);">6</button>
+    <button type="button" class="operator" onclick="getValue('-');">-</button>
+    <br>
+    <button type="button" onclick="getValue(1);">1</button>
+    <button type="button" onclick="getValue(2);">2</button>
+    <button type="button" onclick="getValue(3);">3</button>
+    <button type="button" class="operator" onclick="getValue('*');">x</button>
+    <br>
+    <button type="button" class="clear" onclick="input.value='';history.value=''">C</button>
+    <button type="button" onclick="getValue(0);">0</button>
+    <button type="button" class="equal" onclick="calc();">=</button>
+    <button type="button" class="operator" onclick="getValue('/');">/</button>
+</div>
+<script>
+    let input = document.getElementById("input");
+    let history = document.getElementById("history");
+    function getValue(value) {
+        if(!isNaN(value)) {
+            input.value += value;
+        } else {
+            let str = (history.value).slice(-1);
+            if(str == '+' || str == '-' || str == '*' || str == '/') {
+                if(input.value == "")
+                {
+                    history.value = (history.value).substring(0, (history.value).length - 1);
+                    history.value += value;
+                } else {
+                    if(history.value == "") {
+                        history.value   = input.value + value;
+                    } else {
+                        history.value = eval(history.value + input.value);
+                        history.value += value;
+                    }
+                }
+                input.value = "";
+            } else {
+                history.value = input.value + value;
+                input.value = "";
+            }
+        }
+    }
+    function calc() {
+        history.value = Number(eval(history.value + input.value));
+        input.value = "";
+    }
+</script>
+</body>
+</html>
