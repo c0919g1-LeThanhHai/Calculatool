@@ -94,8 +94,23 @@
                 }
                 input.value = "";
             } else {
-                history.value = input.value + value;
-                input.value = "";
+                if(history.value == "") {
+                    history.value = input.value + value;
+                    input.value = "";
+                } else {
+                    if(str == '+' || str == '-' || str == '*' || str == '/') {
+                        history.value += input.value + value;
+                        input.value = "";
+                    } else {
+                        if(input.value == "") {
+                            history.value += value;
+                        } else {
+                            history.value = "";
+                            history.value += input.value + value;
+                            input.value = "";
+                        }
+                    }
+                }
             }
         }
     }
